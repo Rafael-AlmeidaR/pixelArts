@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel arts</title>
+    <style>
+        * {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <canvas id="canvas"></canvas>
+
+    <script src="Canvas.js"></script>
+    <script>
+        let canvas = document.getElementById("canvas");
+        canvas.width = innerWidth;
+        canvas.height = innerHeight; 
+        // não vai ser exatamente assim o tamanho do canvas pq vai ter barra de ferramentas e cor etc..
+        let context = canvas.getContext("2d");
+        
+        let pixelArt = new PixelArt();
+        let grid = new Grid();
+        let mouse = {pressed: false};
+        
+        let FPS = 30;
+        let timer = setInterval(loop, 1000/FPS);
+
+        function loop()
+        {   
+            context.fillStyle = "white";
+            context.fillRect(0, 0, canvas.width, canvas.height)
+
+            context.strokeStyle = "black";
+            context.strokeRect(0, 0, canvas.width-1, canvas.height-1)
+
+            pixelArt.draw();
+        }
+
+        document.addEventListener("mousemove", mouseAtualize)
+        document.addEventListener("mousedown", mouseD)
+        document.addEventListener("mouseup", mouseU)
+        function mouseD(event)
+        {   mouse.pressed = true;
+        }
+        function mouseU(event)
+        {   mouse.pressed = false;
+        }
+        function mouseAtualize(event)
+        {   if(mouse.pressed)
+            {   let row = Math.trunc(event.clientY / pixelArt.gridHeight);
+                let col = Math.trunc(event.clientX / pixelArt.gridWidth); 
+                
+                if (row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
+                {   pixelArt.art[row][col].clicked();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

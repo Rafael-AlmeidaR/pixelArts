@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel arts</title>
+    <link rel="icon" href="imgs/icon.png" type="image/x-icon">
     <style>
         * {
             margin: 0;
@@ -14,9 +15,12 @@
 <body>
     
     <canvas id="canvas"></canvas>
-
+    <button onclick="switchColor()" style="position: absolute; top: 50%; right: 20%;">Trocar cor</button>
     <script src="Canvas.js"></script>
     <script>
+        function switchColor()
+        {   pixelArt.drawColor = prompt("qual cor")
+        }
         let canvas = document.getElementById("canvas");
         canvas.width = innerWidth;
         canvas.height = innerHeight; 
@@ -25,11 +29,11 @@
         
         let pixelArt = new PixelArt();
         let grid = new Grid();
-        let mouse = {pressed: false};
+        let mouse = {x: 0, y: 0, pressed: false};
+        let tools = new Tools();
         
         let FPS = 30;
         let timer = setInterval(loop, 1000/FPS);
-
         function loop()
         {   
             context.fillStyle = "white";
@@ -39,6 +43,15 @@
             context.strokeRect(0, 0, canvas.width-1, canvas.height-1)
 
             pixelArt.draw();
+            
+            if(mouse.pressed)
+            {   let row = Math.trunc(mouse.y / pixelArt.gridHeight);
+                let col = Math.trunc(mouse.x / pixelArt.gridWidth); 
+                
+                if (row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
+                {   tools.tool.clicked(row, col, pixelArt.art[row][col]);
+                }
+            }
         }
 
         document.addEventListener("mousemove", mouseAtualize)
@@ -51,12 +64,14 @@
         {   mouse.pressed = false;
         }
         function mouseAtualize(event)
-        {   if(mouse.pressed)
-            {   let row = Math.trunc(event.clientY / pixelArt.gridHeight);
-                let col = Math.trunc(event.clientX / pixelArt.gridWidth); 
+        {   mouse.x = event.clientX;
+            mouse.y = event.clientY;
+            if(mouse.pressed)
+            {   let row = Math.trunc(mouse.y / pixelArt.gridHeight);
+                let col = Math.trunc(mouse.x / pixelArt.gridWidth); 
                 
                 if (row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
-                {   pixelArt.art[row][col].clicked();
+                {   tools.tool.clicked(row, col, pixelArt.art[row][col]);
                 }
             }
         }

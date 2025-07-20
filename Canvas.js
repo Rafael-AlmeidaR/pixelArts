@@ -16,9 +16,6 @@ class Grid
             context.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-    clicked()
-    {   this.color = pixelArt.drawColor;
-    }
 }
 
 class PixelArt
@@ -59,4 +56,68 @@ class PixelArt
     }
 }
         
-        
+class Tools
+{   constructor()
+    {   this.allTools = [new Pencil(), new Rubber(), new Bucket()];
+        this.actualTool = 0;
+        this.tool = this.allTools[this.actualTool];
+    }
+    switchTool()
+    {   this.tool = this.allTools[this.actualTool]
+    }
+}
+class Tool
+{   constructor()
+    {   
+    }
+    clicked(x, y, cell)
+    {   console.log("em desenvolvimento!")
+    }
+}
+class Pencil extends Tool
+{   constructor()
+    {   super();
+    }
+    clicked(x, y, cell)
+    {   cell.color = pixelArt.drawColor;
+    }
+}
+class Rubber extends Tool
+{   constructor()
+    {   super();
+    }
+    clicked(x, y, cell)
+    {   cell.color = "";
+    }
+}
+class Bucket extends Tool
+{   constructor()
+    {   super();
+    }
+    clicked(x, y, cell)
+    {   let initalColor = cell.color;
+        let switchColors = [[x, y]];
+        let visitedPositions = [];
+        while(switchColors.length > 0)
+        {   let xA = switchColors[0][0];
+            let yA = switchColors[0][1];
+            if(!visitedPositions.includes(`${xA},${yA}`))
+            {   let row = pixelArt?.art?.[xA];
+                let pixel = row?.[yA];
+                if(pixel)
+                {   if(pixelArt.art[xA][yA].color == initalColor)
+                    {   pixelArt.art[xA][yA].color = pixelArt.drawColor;
+                        switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
+                    }
+                }
+                visitedPositions.push(`${xA},${yA}`)
+            }
+            switchColors.shift();
+            
+            console.log(switchColors);
+        }
+        if(pixelArt.art[x][y].color == initalColor)
+        {   pixelArt.art[x][y].color = pixelArt.drawColor;
+        }
+    }
+}

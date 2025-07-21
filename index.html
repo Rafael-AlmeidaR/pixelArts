@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel arts</title>
+    <title>Pixelarts</title>
     <link rel="icon" href="imgs/icon.png" type="image/x-icon">
     <style>
         * {
@@ -51,6 +51,9 @@
                 if (row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
                 {   tools.tool.clicked(row, col, pixelArt.art[row][col]);
                 }
+            }
+            if(tools.tool.needUpdate)
+            {   tools.tool.update();
             }
         }
 

@@ -23,8 +23,8 @@ class PixelArt
     {   
         //this.width = Number(prompt("Largura?"));
         //this.height = Number(prompt("Altura?"));
-        this.width = 16;
-        this.height = 16;
+        this.width = 32;
+        this.height = 32;
         this.art = [];
         this.drawColor = "rgba(0, 0, 0)";
 
@@ -59,7 +59,7 @@ class PixelArt
 class Tools
 {   constructor()
     {   this.allTools = [new Pencil(), new Rubber(), new Bucket()];
-        this.actualTool = 0;
+        this.actualTool = 2;
         this.tool = this.allTools[this.actualTool];
     }
     switchTool()
@@ -121,3 +121,65 @@ class Bucket extends Tool
         }
     }
 }
+
+
+// teste
+// class Bucket extends Tool
+// {   constructor()
+//     {   super();
+//         this.switchColors;
+//         this.visitedPositions;
+//         this.initalColor;
+//         this.needUpdate = false;
+//     }
+//     clicked(x, y, cell)
+//     {   this.initalColor = cell.color;
+//         this.switchColors = [[x, y]];
+//         this.visitedPositions = [];
+        
+//         let xA = this.switchColors[0][0];
+//         let yA = this.switchColors[0][1];
+//         if(!this.visitedPositions.includes(`${xA},${yA}`))
+//         {   let row = pixelArt?.art?.[xA];
+//             let pixel = row?.[yA];
+//             if(pixel)
+//             {   if(pixelArt.art[xA][yA].color == this.initalColor)
+//                 {   pixelArt.art[xA][yA].color = pixelArt.drawColor;
+//                     this.switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
+//                 }
+//             }
+//             this.visitedPositions.push(`${xA},${yA}`)
+//         }
+//         this.switchColors.shift();
+            
+//             // console.log(switchColors);
+        
+//         if(pixelArt.art[x][y].color == this.initalColor)
+//         {   pixelArt.art[x][y].color = pixelArt.drawColor;
+//         }
+//         this.needUpdate = true;
+//     }
+//     update()
+//     {   if(this.switchColors.length > 0)
+//         {   let xA = this.switchColors[0][0];
+//             let yA = this.switchColors[0][1];
+//             if(!this.visitedPositions.includes(`${xA},${yA}`))
+//             {   let row = pixelArt?.art?.[xA];
+//                 let pixel = row?.[yA];
+//                 if(pixel)
+//                 {   if(pixelArt.art[xA][yA].color == this.initalColor)
+//                     {   pixelArt.art[xA][yA].color = pixelArt.drawColor;
+//                         this.switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
+//                     }
+//                 }
+//                 this.visitedPositions.push(`${xA},${yA}`)
+//             }
+//             this.switchColors.shift();
+            
+//             // console.log(switchColors);
+//         }
+//         if(pixelArt.art[x][y].color == this.initalColor)
+//         {   pixelArt.art[x][y].color = pixelArt.drawColor;
+//         }
+//     }
+// }

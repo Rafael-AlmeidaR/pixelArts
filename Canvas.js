@@ -69,7 +69,7 @@ class Tool
 {   constructor()
     {   this.points = [];
     }
-    clicked(x, y, cell)
+    clicked()
     {   console.log("em desenvolvimento!")
     }
 }
@@ -102,7 +102,8 @@ class Pencil extends Tool
             let a = dy/dx;
             let y = testePoints[0].y
             for(let x = testePoints[0].x; (x <= testePoints[1].x); y += a, x++)
-            {   pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
+            {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
+                    pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
             }
             // while(testePoints[0].x <= testePoints[1].x)
             // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
@@ -121,8 +122,8 @@ class Pencil extends Tool
             let a = dx/dy;
             let x = testePoints[0].x
             for(let y = testePoints[0].y; (y <= testePoints[1].y); x += a, y++)
-            {   pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
-                console.log(y, x)
+            {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
+                    pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
             }
             // while(testePoints[0].y <= testePoints[1].y)
             // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
@@ -198,7 +199,7 @@ class Bucket extends Tool
                 {   if(pixelArt.art[yA][xA].color == initalColor)
                     {   pixelArt.art[yA][xA].color = pixelArt.drawColor;
                         switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
-                        console.log(xA, yA)
+                        //console.log(xA, yA)
                     }
                 }
                 visitedPositions.push(`${xA},${yA}`)

@@ -18,16 +18,25 @@
     <div style="position: absolute; top: 50%; right: 20%;">
         <button onclick="switchColor()">Trocar cor</button>
         <button onclick="switchTool()">Trocar ferramenta</button>
+        <button onclick="Import()" >Importar</button>
     </div>
     <script src="Canvas.js"></script>
     <script>
         function switchColor()
         {   pixelArt.drawColor = prompt("qual cor");
-            mouse.click = "button";
         }
         function switchTool()
         {   tools.switchTool(Number(prompt("Qual ferramenta")));
-            mouse.click = "button";
+        }
+        function Import()
+        {   let art = [];
+            for(let i = 0; (i < pixelArt.art.length); i++)
+            {   art.push([]);
+                for(let i2 = 0; (i2 < pixelArt.art[i].length); i2++)
+                {   art[i].push(pixelArt.art[i][i2].color)
+                }   
+            }
+            navigator.clipboard.writeText(JSON.stringify(art));
         }
         let canvas = document.getElementById("canvas");
         canvas.width = innerWidth;
@@ -37,7 +46,7 @@
         
         let pixelArt = new PixelArt();
         let grid = new Grid();
-        let mouse = {x: 0, y: 0, pressed: false, click: ""};
+        let mouse = {x: 0, y: 0, pressed: false};
         let tools = new Tools();
         
         let FPS = 30;
@@ -61,10 +70,9 @@
                     {   tools.tool.points.shift();   
                     }
 
-                    if(row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
-                    {   tools.tool.clicked();
-                    }
-                    console.log(tools.tool.points[0], tools.tool.points[1], tools.tool.holding)
+                    tools.tool.clicked();
+                    
+                    //console.log(tools.tool.points[0], tools.tool.points[1], tools.tool.holding)
                 }
                 
                 tools.tool.holding = true;
@@ -91,8 +99,8 @@
         {   mouse.pressed = false;
         }
         function mouseAtualize(event)
-        {   mouse.x = event.offsetX;
-            mouse.y = event.offsetY;            
+        {   mouse.x = event.clientX;
+            mouse.y = event.clientY;            
             // if(mouse.pressed)
             // {   let row = Math.trunc(mouse.y / pixelArt.gridHeight);
             //     let col = Math.trunc(mouse.x / pixelArt.gridWidth); 
@@ -103,15 +111,13 @@
             // }
         }
         function mouseC()
-        {   let row = Math.trunc(mouse.y / pixelArt.gridHeight);
+        {   
+            if(mouse.x >= canvas.width) return;
+            alert(mouse.x)
+            let row = Math.trunc(mouse.y / pixelArt.gridHeight);
             let col = Math.trunc(mouse.x / pixelArt.gridWidth);
-            if (mouse.click != "button") 
-            {   tools.tool.points = [{x: col, y: row}, {x: col, y: row}] 
-                tools.tool.clicked();
-            }         
-            else
-            {   mouse.click = "";
-            }
+            tools.tool.points = [{x: col, y: row}, {x: col, y: row}] 
+            tools.tool.clicked();
         }
     </script>
 </body>

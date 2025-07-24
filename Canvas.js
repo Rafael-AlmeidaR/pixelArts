@@ -122,6 +122,7 @@ class Pencil extends Tool
             let x = testePoints[0].x
             for(let y = testePoints[0].y; (y <= testePoints[1].y); x += a, y++)
             {   pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
+                console.log(y, x)
             }
             // while(testePoints[0].y <= testePoints[1].y)
             // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;

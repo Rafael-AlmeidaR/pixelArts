@@ -186,15 +186,16 @@ class Bucket extends Tool
     {   super();
     }
     clicked()
-    {   let initalColor = pixelArt.art[this.points[0].x][this.points[0].y].color;
+    {   if (pixelArt.art[this.points[0].y][this.points[0].x]?.color === undefined) return;
+        let initalColor = pixelArt.art[this.points[0].y][this.points[0].x].color;
         let switchColors = [[this.points[0].x, this.points[0].y]];
         let visitedPositions = [];
         while(switchColors.length > 0)
         {   let xA = switchColors[0][0];
             let yA = switchColors[0][1];
             if(!visitedPositions.includes(`${xA},${yA}`))
-            {   let row = pixelArt?.art?.[xA];
-                let pixel = row?.[yA];
+            {   let row = pixelArt?.art?.[yA];
+                let pixel = row?.[xA];
                 if(pixel)
                 {   if(pixelArt.art[yA][xA].color == initalColor)
                     {   pixelArt.art[yA][xA].color = pixelArt.drawColor;

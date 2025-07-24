@@ -16,33 +16,45 @@
     
     <canvas id="canvas"></canvas>
     <div style="position: absolute; top: 50%; right: 20%;">
-        <button onclick="switchColor()">Trocar cor</button>
-        <button onclick="switchTool()">Trocar ferramenta</button>
-        <button onclick="Import()" >Importar</button>
+        <input type="color" onchange="switchColor()" id="colorSelector">
+        <button onclick="switchTool()">Trocar Ferramenta</button>
+        <button onclick="Export()">Exportar</button>
+        <button onclick="Import()">Importar</button>
         <pre>
             
             0: Pincel.
             1: Borracha.
             2: Balde de tinta.
+            3: Pipeta (pegar cor)
         </pre>
     </div>
     <script src="Canvas.js"></script>
     <script>
+        document.getElementById("colorSelector").value = "#000000";
         function switchColor()
-        {   pixelArt.drawColor = prompt("qual cor");
+        {   pixelArt.drawColor = document.getElementById("colorSelector").value;
+            //alert(pixelArt.drawColor)
         }
         function switchTool()
         {   tools.switchTool(Number(prompt("Qual ferramenta")));
         }
-        function Import()
-        {   let art = [];
+        function Export()
+        {   let resposta = {usedColors: [], art: []};
             for(let i = 0; (i < pixelArt.art.length); i++)
-            {   art.push([]);
+            {   resposta.art.push([]);
                 for(let i2 = 0; (i2 < pixelArt.art[i].length); i2++)
-                {   art[i].push(pixelArt.art[i][i2].color)
+                {   let color = pixelArt.art[i][i2].color;
+                    if(!resposta.usedColors.includes(color) && color != "")
+                    {   resposta.usedColors.push(color);
+                    }
+                    let push = resposta.usedColors.indexOf(color);
+                    resposta.art[i].push(push == -1 ? "" : push);
                 }   
             }
-            navigator.clipboard.writeText(JSON.stringify(art));
+            navigator.clipboard.writeText(JSON.stringify(resposta));
+        }
+        function Import()
+        {   alert("Em desenvolvimento!")
         }
         let canvas = document.getElementById("canvas");
         canvas.width = innerWidth;

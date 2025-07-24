@@ -59,44 +59,133 @@ class PixelArt
 class Tools
 {   constructor()
     {   this.allTools = [new Pencil(), new Rubber(), new Bucket()];
-        this.actualTool = 2;
-        this.tool = this.allTools[this.actualTool];
+        this.tool = this.allTools[0];
     }
-    switchTool()
-    {   this.tool = this.allTools[this.actualTool]
+    switchTool(newTool)
+    {   this.tool = this.allTools[newTool]
     }
 }
 class Tool
 {   constructor()
-    {   
+    {   this.points = [];
     }
     clicked(x, y, cell)
     {   console.log("em desenvolvimento!")
     }
 }
+// class Pencil extends Tool
+// {   constructor()
+//     {   super();
+//     }
+//     clicked(x, y, cell)
+//     {   cell.color = pixelArt.drawColor;
+//     }
+// }
 class Pencil extends Tool
 {   constructor()
     {   super();
     }
-    clicked(x, y, cell)
-    {   cell.color = pixelArt.drawColor;
+    clicked()
+    {   let dx = this.points[1].x - this.points[0].x
+        let dy = this.points[1].y - this.points[0].y
+        let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
+        //console.log(testePoints)
+        if(Math.abs(dx) > Math.abs(dy))
+        {   if(testePoints[0].x > testePoints[1].x)
+            {   let troca = testePoints[0].x;
+                testePoints[0].x = testePoints[1].x;
+                testePoints[1].x = troca;
+                troca = testePoints[0].y;
+                testePoints[0].y = testePoints[1].y;
+                testePoints[1].y = troca;
+            }
+            let a = dy/dx;
+            let y = testePoints[0].y
+            for(let x = testePoints[0].x; (x <= testePoints[1].x); y += a, x++)
+            {   pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
+            }
+            // while(testePoints[0].x <= testePoints[1].x)
+            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
+            //     testePoints[0].y += a;
+            // }
+        }
+        else
+        {   if(testePoints[0].y > testePoints[1].y)
+            {   let troca = testePoints[0].y;
+                testePoints[0].y = testePoints[1].y;
+                testePoints[1].y = troca;
+                troca = testePoints[0].x;
+                testePoints[0].x = testePoints[1].x;
+                testePoints[1].x = troca;
+            }
+            let a = dx/dy;
+            let x = testePoints[0].x
+            for(let y = testePoints[0].y; (y <= testePoints[1].y); x += a, y++)
+            {   pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
+            }
+            // while(testePoints[0].y <= testePoints[1].y)
+            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
+            //     testePoints[0].x += a;
+            // }
+        }
     }
 }
 class Rubber extends Tool
 {   constructor()
     {   super();
     }
-    clicked(x, y, cell)
-    {   cell.color = "";
+    clicked()
+    {   let dx = this.points[1].x - this.points[0].x
+        let dy = this.points[1].y - this.points[0].y
+        let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
+        //console.log(testePoints)
+        if(Math.abs(dx) > Math.abs(dy))
+        {   if(testePoints[0].x > testePoints[1].x)
+            {   let troca = testePoints[0].x;
+                testePoints[0].x = testePoints[1].x;
+                testePoints[1].x = troca;
+                troca = testePoints[0].y;
+                testePoints[0].y = testePoints[1].y;
+                testePoints[1].y = troca;
+            }
+            let a = dy/dx;
+            let y = testePoints[0].y
+            for(let x = testePoints[0].x; (x <= testePoints[1].x); y += a, x++)
+            {   pixelArt.art[Math.round(y)][Math.round(x)].color = "";
+            }
+            // while(testePoints[0].x <= testePoints[1].x)
+            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
+            //     testePoints[0].y += a;
+            // }
+        }
+        else
+        {   if(testePoints[0].y > testePoints[1].y)
+            {   let troca = testePoints[0].y;
+                testePoints[0].y = testePoints[1].y;
+                testePoints[1].y = troca;
+                troca = testePoints[0].x;
+                testePoints[0].x = testePoints[1].x;
+                testePoints[1].x = troca;
+            }
+            let a = dx/dy;
+            let x = testePoints[0].x
+            for(let y = testePoints[0].y; (y <= testePoints[1].y); x += a, y++)
+            {   pixelArt.art[Math.round(y)][Math.round(x)].color = "";
+            }
+            // while(testePoints[0].y <= testePoints[1].y)
+            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
+            //     testePoints[0].x += a;
+            // }
+        }
     }
 }
 class Bucket extends Tool
 {   constructor()
     {   super();
     }
-    clicked(x, y, cell)
-    {   let initalColor = cell.color;
-        let switchColors = [[x, y]];
+    clicked()
+    {   let initalColor = pixelArt.art[this.points[0].x][this.points[0].y].color;
+        let switchColors = [[this.points[0].x, this.points[0].y]];
         let visitedPositions = [];
         while(switchColors.length > 0)
         {   let xA = switchColors[0][0];
@@ -105,20 +194,20 @@ class Bucket extends Tool
             {   let row = pixelArt?.art?.[xA];
                 let pixel = row?.[yA];
                 if(pixel)
-                {   if(pixelArt.art[xA][yA].color == initalColor)
-                    {   pixelArt.art[xA][yA].color = pixelArt.drawColor;
+                {   if(pixelArt.art[yA][xA].color == initalColor)
+                    {   pixelArt.art[yA][xA].color = pixelArt.drawColor;
                         switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
+                        console.log(xA, yA)
                     }
                 }
                 visitedPositions.push(`${xA},${yA}`)
             }
             switchColors.shift();
-            
-            console.log(switchColors);
+            //console.log(switchColors);
         }
-        if(pixelArt.art[x][y].color == initalColor)
-        {   pixelArt.art[x][y].color = pixelArt.drawColor;
-        }
+        // if(pixelArt.art[x][y].color == initalColor)
+        // {   pixelArt.art[x][y].color = pixelArt.drawColor;
+        // }
     }
 }
 

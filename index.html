@@ -113,7 +113,7 @@
         function mouseC()
         {   
             if(mouse.x >= canvas.width) return;
-            alert(mouse.x)
+            //alert(mouse.x)
             let row = Math.trunc(mouse.y / pixelArt.gridHeight);
             let col = Math.trunc(mouse.x / pixelArt.gridWidth);
             tools.tool.points = [{x: col, y: row}, {x: col, y: row}] 

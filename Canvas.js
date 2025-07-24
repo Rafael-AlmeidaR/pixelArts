@@ -21,10 +21,10 @@ class Grid
 class PixelArt
 {   constructor()
     {   
-        //this.width = Number(prompt("Largura?"));
-        //this.height = Number(prompt("Altura?"));
-        this.width = 32;
-        this.height = 32;
+        this.width = Number(prompt("Largura?"));
+        this.height = Number(prompt("Altura?"));
+        // this.width = 32;
+        // this.height = 32;
         this.art = [];
         this.drawColor = "rgba(0, 0, 0)";
 

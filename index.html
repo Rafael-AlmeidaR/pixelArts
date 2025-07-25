@@ -39,17 +39,67 @@
         {   tools.switchTool(Number(prompt("Qual ferramenta")));
         }
         function Export()
-        {   let resposta = {usedColors: [], art: []};
+        {   
+            let tipoResposta = Number(prompt("0: Resposta pra importar de volta pra cá / 1: Resposta pra por no código"))
+            let resposta = {usedColors: [], art: [], posX: 0, posY: 0, finalX: pixelArt.art[0].length, finalY: pixelArt.art.length};
+            
             for(let i = 0; (i < pixelArt.art.length); i++)
             {   resposta.art.push([]);
+                let cY = 0;
+                let cH = 0;
+                let inverseI = pixelArt.art.length - 1 - i;
+                //console.log(inverseI)
                 for(let i2 = 0; (i2 < pixelArt.art[i].length); i2++)
                 {   let color = pixelArt.art[i][i2].color;
+                    let inverseI2 = pixelArt.art[inverseI].length - 1 - i2;
+                    
+                    //console.log(inverseI2)
                     if(!resposta.usedColors.includes(color))
                     {   resposta.usedColors.push(color);
                     }
                     let push = resposta.usedColors.indexOf(color);
                     resposta.art[i].push(push);
+                    cY += color == "";
+
+                    cH += pixelArt.art[inverseI][inverseI2].color == "";
+
+                    if(i == 0)
+                    {   let cX = 0;
+                        let cW = 0;
+                        for(let i3 = 0; (i3 < pixelArt.art.length); i3++)
+                        {   let inverseI3 = pixelArt.art.length - 1 - i3;
+                            let color = pixelArt.art[i3][i2].color;
+                            cX += color == "";
+                            cW += pixelArt.art[inverseI3][inverseI2].color == "";
+                        }
+                        if(cX == pixelArt.art.length && resposta.posX == i2)
+                        {   resposta.posX++;
+                        }
+                        if(cW == pixelArt.art.length && resposta.finalX == (pixelArt.art[0].length - i2))
+                        {   resposta.finalX--;
+                        }
+                        
+                    }
                 }   
+                
+                if(cY == pixelArt.art[i].length && resposta.posY == i)
+                {   resposta.posY++;
+                }
+                if(cH == pixelArt.art[inverseI].length && resposta.finalY == (inverseI+1))
+                {   resposta.finalY--;
+                }
+                
+            }
+            if (tipoResposta)
+            {   resposta.art = resposta.art.slice(resposta.posY, resposta.finalY);
+
+                for (let i = 0; i < resposta.art.length; i++) 
+                {   resposta.art[i] = resposta.art[i].slice(resposta.posX, resposta.finalX);
+                }
+                delete resposta.posX;
+                delete resposta.posY;
+                delete resposta.finalX;
+                delete resposta.finalY;
             }
             navigator.clipboard.writeText(JSON.stringify(resposta));
         }
@@ -59,7 +109,7 @@
             if(objeto.usedColors.length > 0)
             {   for(let i = 0; (i < objeto.art.length); i++)   
                 {   for(let i2 = 0; (i2 < objeto.art[i].length); i2++)
-                    {   console.log(i, i2)
+                    {   //console.log(i, i2)
                         pixelArt.art[i][i2].color = objeto.usedColors[objeto.art[i][i2]]
 
                     }
@@ -99,8 +149,6 @@
                     }
 
                     tools.tool.clicked();
-                    
-                    //console.log(tools.tool.points[0], tools.tool.points[1], tools.tool.holding)
                 }
                 
                 tools.tool.holding = true;

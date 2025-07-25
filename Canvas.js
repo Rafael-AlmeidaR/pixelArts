@@ -7,11 +7,7 @@ class Grid
         this.color = "";
     }
     draw()
-    {   
-        // context.strokeStyle = "black";
-        // context.strokeRect(this.x, this.y, this.width, this.height)
-        
-        if(this.color != "")
+    {   if(this.color != "")
         {   context.fillStyle = this.color;
             context.fillRect(this.x, this.y, this.width, this.height);
         }
@@ -20,10 +16,7 @@ class Grid
 
 class PixelArt
 {   constructor()
-    {   
-        // this.width = Number(prompt("Largura?"));
-        // this.height = Number(prompt("Altura?"));
-        this.width = 32;
+    {   this.width = 32;
         this.height = 32;
         this.art = [];
         this.drawColor = "#000000";
@@ -73,14 +66,6 @@ class Tool
     {   console.log("em desenvolvimento!")
     }
 }
-// class Pencil extends Tool
-// {   constructor()
-//     {   super();
-//     }
-//     clicked(x, y, cell)
-//     {   cell.color = pixelArt.drawColor;
-//     }
-// }
 class Pencil extends Tool
 {   constructor()
     {   super();
@@ -89,7 +74,7 @@ class Pencil extends Tool
     {   let dx = this.points[1].x - this.points[0].x
         let dy = this.points[1].y - this.points[0].y
         let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
-        //console.log(testePoints)
+
         if(Math.abs(dx) > Math.abs(dy))
         {   if(testePoints[0].x > testePoints[1].x)
             {   let troca = testePoints[0].x;
@@ -105,10 +90,7 @@ class Pencil extends Tool
             {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
                     pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
             }
-            // while(testePoints[0].x <= testePoints[1].x)
-            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
-            //     testePoints[0].y += a;
-            // }
+
         }
         else
         {   if(testePoints[0].y > testePoints[1].y)
@@ -125,10 +107,6 @@ class Pencil extends Tool
             {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
                     pixelArt.art[Math.round(y)][Math.round(x)].color = pixelArt.drawColor;
             }
-            // while(testePoints[0].y <= testePoints[1].y)
-            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = pixelArt.drawColor;
-            //     testePoints[0].x += a;
-            // }
         }
     }
 }
@@ -140,7 +118,7 @@ class Rubber extends Tool
     {   let dx = this.points[1].x - this.points[0].x
         let dy = this.points[1].y - this.points[0].y
         let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
-        //console.log(testePoints)
+
         if(Math.abs(dx) > Math.abs(dy))
         {   if(testePoints[0].x > testePoints[1].x)
             {   let troca = testePoints[0].x;
@@ -156,10 +134,7 @@ class Rubber extends Tool
             {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
                     pixelArt.art[Math.round(y)][Math.round(x)].color = "";
             }
-            // while(testePoints[0].x <= testePoints[1].x)
-            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
-            //     testePoints[0].y += a;
-            // }
+
         }
         else
         {   if(testePoints[0].y > testePoints[1].y)
@@ -176,10 +151,7 @@ class Rubber extends Tool
             {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
                     pixelArt.art[Math.round(y)][Math.round(x)].color = "";
             }
-            // while(testePoints[0].y <= testePoints[1].y)
-            // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
-            //     testePoints[0].x += a;
-            // }
+
         }
     }
 }
@@ -202,13 +174,11 @@ class Bucket extends Tool
                 {   if(pixelArt.art[yA][xA].color == initalColor)
                     {   pixelArt.art[yA][xA].color = pixelArt.drawColor;
                         switchColors.push([xA, yA-1], [xA-1, yA], [xA+1, yA], [xA, yA+1]);
-                        //console.log(xA, yA)
                     }
                 }
                 visitedPositions.push(`${xA},${yA}`)
             }
             switchColors.shift();
-            //console.log(switchColors);
         }
     }
 }

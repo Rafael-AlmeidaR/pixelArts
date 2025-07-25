@@ -33,7 +33,6 @@
         document.getElementById("colorSelector").value = "#000000";
         function switchColor()
         {   pixelArt.drawColor = document.getElementById("colorSelector").value;
-            //alert(pixelArt.drawColor)
         }
         function switchTool()
         {   tools.switchTool(Number(prompt("Qual ferramenta")));
@@ -48,12 +47,12 @@
                 let cY = 0;
                 let cH = 0;
                 let inverseI = pixelArt.art.length - 1 - i;
-                //console.log(inverseI)
+                
                 for(let i2 = 0; (i2 < pixelArt.art[i].length); i2++)
                 {   let color = pixelArt.art[i][i2].color;
                     let inverseI2 = pixelArt.art[inverseI].length - 1 - i2;
                     
-                    //console.log(inverseI2)
+                    
                     if(!resposta.usedColors.includes(color))
                     {   resposta.usedColors.push(color);
                     }
@@ -109,8 +108,7 @@
             if(objeto.usedColors.length > 0)
             {   for(let i = 0; (i < objeto.art.length); i++)   
                 {   for(let i2 = 0; (i2 < objeto.art[i].length); i2++)
-                    {   //console.log(i, i2)
-                        pixelArt.art[i][i2].color = objeto.usedColors[objeto.art[i][i2]]
+                    {   pixelArt.art[i][i2].color = objeto.usedColors[objeto.art[i][i2]]
 
                     }
                 }
@@ -161,7 +159,7 @@
 
             
             
-            //fazer que quando clicar seta p0 e quando soltar seta p1
+            
         }
 
         document.addEventListener("mousemove", mouseAtualize)
@@ -177,19 +175,12 @@
         function mouseAtualize(event)
         {   mouse.x = event.clientX;
             mouse.y = event.clientY;            
-            // if(mouse.pressed)
-            // {   let row = Math.trunc(mouse.y / pixelArt.gridHeight);
-            //     let col = Math.trunc(mouse.x / pixelArt.gridWidth); 
-                
-            //     if (row >= 0 && row < pixelArt.art.length && col >= 0 && col < pixelArt.art[row].length) 
-            //     {   tools.tool.clicked(row, col, pixelArt.art[row][col]);
-            //     }
-            // }
+            
         }
         function mouseC()
         {   
             if(mouse.x >= canvas.width) return;
-            //alert(mouse.x)
+
             let row = Math.trunc(mouse.y / pixelArt.gridHeight);
             let col = Math.trunc(mouse.x / pixelArt.gridWidth);
             tools.tool.points = [{x: col, y: row}, {x: col, y: row}] 

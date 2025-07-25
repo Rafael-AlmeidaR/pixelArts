@@ -44,17 +44,27 @@
             {   resposta.art.push([]);
                 for(let i2 = 0; (i2 < pixelArt.art[i].length); i2++)
                 {   let color = pixelArt.art[i][i2].color;
-                    if(!resposta.usedColors.includes(color) && color != "")
+                    if(!resposta.usedColors.includes(color))
                     {   resposta.usedColors.push(color);
                     }
                     let push = resposta.usedColors.indexOf(color);
-                    resposta.art[i].push(push == -1 ? "" : push);
+                    resposta.art[i].push(push);
                 }   
             }
             navigator.clipboard.writeText(JSON.stringify(resposta));
         }
         function Import()
-        {   alert("Em desenvolvimento!")
+        {   let codigo = prompt("Qual o código de importação?");
+            let objeto = eval("("+codigo+")");
+            if(objeto.usedColors.length > 0)
+            {   for(let i = 0; (i < objeto.art.length); i++)   
+                {   for(let i2 = 0; (i2 < objeto.art[i].length); i2++)
+                    {   console.log(i, i2)
+                        pixelArt.art[i][i2].color = objeto.usedColors[objeto.art[i][i2]]
+
+                    }
+                }
+            }
         }
         let canvas = document.getElementById("canvas");
         canvas.width = innerWidth;

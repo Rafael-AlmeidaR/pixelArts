@@ -1,0 +1,32 @@
+* {
+    /* reset css*/
+    padding: 0;
+    margin: 0;
+    vertical-align: baseline;
+    list-style: none;
+    text-decoration: none;
+    overflow: hidden;
+    border: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: "Press Start 2P", system-ui;
+    font-size: 12px;
+}
+
+html, body {
+    height: 100vh;
+}
+
+#all{
+    display: flex;
+    flex-flow: row;
+}
+
+.tools {
+    width: 50px;
+    height: 50px;
+}
+
+header {
+    height: 200px;
+}

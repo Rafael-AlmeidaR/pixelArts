@@ -5,37 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixelarts</title>
     <link rel="icon" href="imgs/icon.png" type="image/x-icon">
-    <style>
-        * {
-            margin: 0;
-            overflow: hidden;
-        }
-    </style>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
-    
-    <canvas id="canvas"></canvas>
-    <div style="position: absolute; top: 50%; right: 20%;">
-        <input type="color" onchange="switchColor()" id="colorSelector">
-        <button onclick="switchTool()">Trocar Ferramenta</button>
-        <button onclick="Export()">Exportar</button>
-        <button onclick="Import()">Importar</button>
-        <pre>
-            
-            0: Pincel.
-            1: Borracha.
-            2: Balde de tinta.
-            3: Pipeta (pegar cor)
-        </pre>
-    </div>
+    <main id="all">
+        <canvas id="canvas"></canvas>
+        <section id="right">
+
+            <header>
+                <input type="color" onchange="switchColor()" id="colorSelector">
+                <button onclick="switchTool(0)" title="Pincel" class="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAADNklEQVRYR+2Y36sMYRjH39ltDyK/uVBy/LgiJaW0OsiNovyII3duyLWQU+JKCiWUUu78AVw4On4cpFzgBuVWHeWgpE46RedY6/OM2dmZ2Xln3nd3dqetfevbtDPPvM/nfZ7n/bHjqC5qThexqh5su7LVi6xFZJdiexgtRH/QY/RG936ekd0B1D00NwJ3jd8n4oDzgt0CzCM0WxPFs9y/GH2WB+yAUg7prs7UpbtASfxVajnPvwVtOg0LqFuXWlAfrqSOqGl1Jy9YAR1JSH000EPcuJQH7ACpHSG1fo1KSqvJy8YeHt/vNGwZh6Nolu84jdRR44ykH3tZzkKvJY+vtaeRWV+nJNKKSLstwi63dyFZLUKtnROsMaI110HScLgrShUHlarI+tvQ2gWrB/UQilwhC7aK6lODasrdKGJbO2BTQeskfoiFm4jqQWvl0lpVht8u436UoqtPptiURyJqAJo1rEVEfViZ7YfSIlqzzqoMmgXdB8gD09RmAVsuOKS+Gkh9xHu0Ery93wo0izJYRicv0UrT6HiLQOpkiusvi8hKv3KI3o2uoEUJ4DLr96PQNmo60GZggSluY5VcjZMf6B36gKaQnPilBje7AOGtqSVQ2zKQ5egyOoZmRKLxk9/n0A00B71GawM2zPoiNVoxnkytlIHAPUWy14dbOHpnvAHt5PrQDa1TneZQIiXyxDTdOjvTMrhFB8eTKP1nJbWBQ/N7L7obucpRT86xLTcTWPlD9x31ibGodlrSeL/L/QPoKBrPClR8mcBux+65GKfvnC7+JJqXPib7QJvASr0Np5J6tesNSNbfr/Y4yW+YwG4F4IU29fHhXoPbj3nAbsKp9itJFMgN8Pz+BWpibCIPWJkotxscQ1WoFphsDTEfw9Zm+zUeU1oZrKenZ2ix8fRS6ir2J40JLAx1sPKX+TySb06l//2l/SV1jX4j2Ya/WDAYm+pgT9ODbK1+q6NqoaUe9qJhY++WhjpYOTldQLJrpZWKuPyE5NPlK0v/VuZpIKvo7RQ6iJbE9PyZe9fRTfTLynMTxmmwwS7X8UNOUivQJEewt9DJ6apjzQa2Y1A6Rz3YdqWgqyL7D6+nmCzm7+jgAAAAAElFTkSuQmCC" alt=""></button>
+                <button onclick="switchTool(1)" title="Borracha" class="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAADWklEQVRYR+2YS2sTURiGT1MqVqs0VbALFy5EFxKtiogVUUQ3XvACFgUvuC0K/gDRuvAHKF4WggsvILgQpApibSsKRXQhqBsXLvwBCqKg1qY+bzqTTJLpnDlnkkUhA68zOTnzzZP3fPOdr7aZOXS0zSFW04Jt1mq1nG05iwOtNIikwXyur6Kj6AM6jT77pkkzne0E6inaEYH7zvU29MkHuFmwnQQemTamv5RoXNQA7+Tze1fgZsDK0RHUH4XJ8aFYGfjB5XZX4EbDdgHwrAJag1htpTNwI2EFOoo2OSyvE3CjYLvaAZ1yAw1/k4B3obe2H9kA2J7FxnxTjro4GuEqvYE/+UcvXSJwVlhAS0u/Eb1B65Bqa/looxxM15QDfVkuEpW0/sXwbjQxm8NZYAX6EvWhcbQHrUdyWRWh7kh83WZmJzrsC5s3OaCKZoNp5zxl9vOg3wHdVs6qCAuraeNR68twCXgN+lr7a31g8wTR0svRJ2hfjIlbGHteDxzndwyuMVeYeS4rrEC15GvRY3Qg7vHB2GbOLwScYvlrwzxg4FgW2KWBowXOj9DhBNDwK1UIAS8qDaSnVloN+8IK9DVaLdAhYwbQvxSwmqJ00YuoF7J81HFXBgaZdDMudpqcrQIlyBFE/Xc6YoFjIswKqrk22GWBK3JUeXTcAzRk6uNhozRg+ZhOTHMSQW2wqpVq41ahO+iUk5fxk7VpjAPdPdM1livBGT5ct8VPcvYiNw81EDRkUSUZQz3BwFnO12ygic7SmAyTmHtppQpU6Y9pgqWcU6AqjLGhLGF+KkfDuEnOXmLSBerNXdrmkylBbNOirjqB2nJW/ek7pJfrHjphI7F8X8pX1I1SL300pq0a9DL5FVqJtBEMoLT1Nfoc7fXEyeVNR3HQTMbXUZsZNljdHwVWL3DQETgANfkOytPkLAXfBmpLg+j9vVSZCdrSFQwK+BDiudZDm4GaHvUU1jpqi5bG2TDG8iAlBKyOSvv3n4QHRHetzKAuzsYBK5epFrGHnLyN9DI9RDeSXdMfF2E7XJ75hauqntbF2WrgHCkR+Y8A2xKGm1X6xsucJ+blaFwfWN2vVJBbC6yQnhPmGXPrrzH3GwHriZDtNl9nsz3V8+4WrKdx1ttazlot8pzwH1NomyzwVEf2AAAAAElFTkSuQmCC" alt=""></button>
+                <button onclick="switchTool(2)" title="Balde de Tinta" class="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAED0lEQVRYR+2YW4hNURjH1zlDKNcxhhJPimmUXHKJlMKLJ3J7U25DUhJFRDy4RClJRIhyiZCi5FHkUq4jieT24BKiqTHMnOP332edOftcZu91zjZHE6v+Z5+99vet9V/f/i5r7ZjpQC3Wgbia/2Tb6239M5YdbUx8mjGJrljyB7gK7udZtbupNg1mFv23wIP0c5SmojSI+9Og0fZXG9MZ2V9ZsmmdUi27jgG2e4PEQaL1ov6dPsJayFsmqUp6nV1mGNN0hT9rwC4rd5vreODJgio7JrJGsq2tFLIa9Bv4ABYa06nZmObO/D8G+oKe4KedYSDXd95/zZQ0q/ndAw6xxsWsUe076AUysqn+tGwkssPQfgrOgrmZdXv3s4GeP/P17+P/Ctg+MQOSU8x784n7GnAdaHHLwEErb2XNE+6nAMlGIluLdj04B+ZkkY1BNmmG06fJ/E06z0Ha4nrWA/QDL/2C3Y2pbciX9URKcYO2yaYsW4hsDvfSbkshO5apFBRfQDeBQRoJoEaulVzH0XcnhI4WdAAoG2wEJ6z8FsaoYwxlg6Xgo3+cYskSUF6AKIjUvoIXYAjoY/sUMCvB8QDCh3i22CefFWA2wZQcYFrUUbAAKAspIDThPR8h8q4XLGkSktF9obbKLlrPboBJQFnmFehvFaZzveZXdrXsFpQ2AUWn8t/dAKtN5NllIGutBbsLyGpe5WRlDlnws5WRe2wGF8DJXD0Xsgqoh0CRPBL401JbnEfxKm+RR1sQGAreBCzO+ZEL2fOMNhMsAYedR05ZTlVOOtJ1adVUl1m/ckpzWjGM7GAEX4PHYARIVU231gWxV6A3UD4lfQa2TLlFrAJ347W4l1tWuZxV7kd3PdjhxtEnFTd72TcoM+jNXAzRj1xulQvrwGSg8lhsUzk+AxQ0Wx2UI5XbU0wwH8gFHjlMliXSyZgJ7HJu0nkELHLUL1SaPdUQn61gc9ISpYTWkhXqyQq5+whH3tligWR5eJaIEtn0tjV0Elt9cuXanywzYtkYZJUEUhvSElt5yGKp2XaTbHlCOgZpF94ZM/8tsoVsG2r18pCFmuezLq0Nf5VqGchW4LMt+WRD7Zi/sjKQTZ2znC0bYP0yknUxZbBMGclmmSybVYCftuZmNiXn2JT4D5cuIZAnE7brsm7gYtrM2Bnp1qWU0bKaXUgUR9pnmjKSDXlpafv93dSV+mg2L8U1ZuJUroRXuYI8tWBl1jZRu7dILdhn4xxLEjqe+MkV7wpob6Nkb4jE1NogaAwdEPXBgq1pfnOkrYPmGKCjUaQWlg00uIqCjsX6UhjqATlsmjiIzW0y5lIkllbZhaxEa/CEabhEZRGT6tOPPlLog9wfaa5k/8hkUQf5TzaqBdvS71CW/Q37ZO4s4o1sUQAAAABJRU5ErkJggg==" alt=""></button>
+                <button onclick="switchTool(3)" title="Pipeta de Cor" class="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAC9klEQVRYR+2YOYgUQRSGazcTFUHwAFEwEdRkIzEw8RZFRRTFg3U9UDERBDEz2WhFMTIQr/FARFEQxMD1WG8UNBIRFowNDF0XRVe/f+iGcqiurh67ehiZgn+3t6q63jevXr16s12mjVpXG7GaDmys3ep49v/z7HjTY0bMAT7YZHQZ3c37kK0Kg+0JYLcF2M/zMR9wK2BdoCnjER5OZAHHhl2O4UHLuECvIJ/dw4yfcgHHhD2IwdPoLNqPtgWAGqPAGDOL+PmiETgm7AyMPUJz0DMkgAZ7+vO3y4k1OndVCStbU9BbNNN3cBxjF+jbUzWsDJ4rCDrC/AXoQ5WwuzF2XhuN+sdMPafK0w3tr1AYZXAFeu76gLFiNj31stmHlPRnoyE0K8PT3+hfmQWqd2LApnlUa6egKZ9ABSxwuwE6DtBRp0fTiWXD2qBKVdcdXpxK32M0LxnL9WgM2B3JdisXbUU3MrZb3Ur8J5PxJ8xcajabX5759aGyPJvGKOeoDnrTY7h+8JBO/TCXQA+XwFWee5Ez6ZbpWRt0IwvfCQRdxryPSHE6H21Ct3ze/VfPbmHxa0ge3YB8ZZ5uJCX7r0jp6VUCNp3fO9FAzDCQJ3SAfqK1yC5YGu1qi2vJ1sujr/PAXOPNetYGXcXCQx7jpYBq/WZgU9AfvL+6KtBmYG1QbefLAI/qCl3S7Nbb6xfx7DpevI1kXNdiKKj3Ci0Su6Gw61lUaUW5UdX/G4+RvYyp4NZcxbP3Co0BO8yiKqZVQL9rBWhozE5j4md0D60JjNHStr5ozCr1XEJH0fEM2DQ9pfFc2tYXhb3IC31oIXIlc0C7a1xiUUFDw0AhMAlNRLqt7NbLCa1RfUQHDYFVkfwJoEGAdJ9PQIuRMoLy7FwUXI964j1oKC91afsVBvqG+j0JBftfPu/pO4T0lTt6y4M9A8E+i+ILzw/QQ6QKSyFSWcuDVdkn2KfoPlKO9RbIMcnzYGPaLrx2B7awywJf6Hg20FGFp7WVZ/8AeWegLNzGpkgAAAAASUVORK5CYII=" alt=""></button>
+                
+                <button onclick="Export()">Exportar</button>
+                <button onclick="Import()">Importar</button>
+            </header>
+        </section>
+    </main>
     <script src="Canvas.js"></script>
     <script>
         document.getElementById("colorSelector").value = "#000000";
         function switchColor()
         {   pixelArt.drawColor = document.getElementById("colorSelector").value;
         }
-        function switchTool()
-        {   tools.switchTool(Number(prompt("Qual ferramenta")));
+        function switchTool(tool)
+        {   tools.switchTool(tool);
         }
         function Export()
         {   

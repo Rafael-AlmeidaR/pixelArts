@@ -70,7 +70,7 @@ class Tool
     {   this.points = [];
     }
     clicked()
-    {   if (pixelArt.art[this.points[0].y]?.[this.points[0].x]?.color === undefined) return;
+    {   console.log("em desenvolvimento!")
     }
 }
 // class Pencil extends Tool
@@ -86,8 +86,7 @@ class Pencil extends Tool
     {   super();
     }
     clicked()
-    {   super.clicked();
-        let dx = this.points[1].x - this.points[0].x
+    {   let dx = this.points[1].x - this.points[0].x
         let dy = this.points[1].y - this.points[0].y
         let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
         //console.log(testePoints)
@@ -138,8 +137,7 @@ class Rubber extends Tool
     {   super();
     }
     clicked()
-    {   super.clicked();
-        let dx = this.points[1].x - this.points[0].x
+    {   let dx = this.points[1].x - this.points[0].x
         let dy = this.points[1].y - this.points[0].y
         let testePoints = [{x: this.points[0].x, y: this.points[0].y}, {x: this.points[1].x, y: this.points[1].y}];
         //console.log(testePoints)
@@ -155,7 +153,8 @@ class Rubber extends Tool
             let a = dy/dx;
             let y = testePoints[0].y
             for(let x = testePoints[0].x; (x <= testePoints[1].x); y += a, x++)
-            {   pixelArt.art[Math.round(y)][Math.round(x)].color = "";
+            {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
+                    pixelArt.art[Math.round(y)][Math.round(x)].color = "";
             }
             // while(testePoints[0].x <= testePoints[1].x)
             // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
@@ -174,7 +173,8 @@ class Rubber extends Tool
             let a = dx/dy;
             let x = testePoints[0].x
             for(let y = testePoints[0].y; (y <= testePoints[1].y); x += a, y++)
-            {   pixelArt.art[Math.round(y)][Math.round(x)].color = "";
+            {   if(pixelArt.art[Math.round(y)]?.[Math.round(x)])
+                    pixelArt.art[Math.round(y)][Math.round(x)].color = "";
             }
             // while(testePoints[0].y <= testePoints[1].y)
             // {   pixelArt.art[testePoints[0].x][testePoints[0].y].color = "";
@@ -188,7 +188,7 @@ class Bucket extends Tool
     {   super();
     }
     clicked()
-    {   super.clicked();
+    {   if(pixelArt.art[this.points[0].y][this.points[0].x] === undefined) return;
         let initalColor = pixelArt.art[this.points[0].y][this.points[0].x].color;
         let switchColors = [[this.points[0].x, this.points[0].y]];
         let visitedPositions = [];

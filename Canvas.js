@@ -190,6 +190,8 @@ class ColorPicker extends Tool
     }
     clicked()
     {   if (pixelArt.art[this.points[1].y]?.[this.points[1].x]?.color === undefined) return;
-        pixelArt.drawColor = pixelArt.art[this.points[1].y][this.points[1].x].color;
+        let color = pixelArt.art[this.points[1].y][this.points[1].x].color
+        pixelArt.drawColor = color;
+        document.getElementById("colorSelector").value = color;
     }
 }

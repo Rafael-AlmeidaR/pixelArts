@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"  rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -31,8 +31,9 @@
 
                         <button onclick="Export(document.querySelector('select').value)" class="comp">Exportar</button>
                         <select>
-                            <option value="0">Interface</option>
-                            <option value="1">Código</option>
+                            <option value="0">js13k</option>
+                            <option value="1">Interface</option>
+                            <option value="2">Código</option>
                         </select>
                     </div>
                     <button onclick="Import()" class="comp">Importar</button>
@@ -46,6 +47,20 @@
     <script src="Canvas.js"></script>
     <script>
         document.getElementById("colorSelector").value = "#000000";
+        function compress_sprite(array)
+        {   const pos_breaks = array[0].length.toString().split("").reverse().join("");
+            a = array.flat().join("")
+            for(var i = 0, actual_char = a[0], count = 0, new_s = ""; i < a.length; i++){
+                if(actual_char!=a[i] || count==35)
+            {     new_s += count.toString(36) + actual_char.toString(36);
+                count = 1;
+                actual_char = a[i];
+            }
+            else
+                count++;
+        }
+        return ("#" + (pos_breaks[2] || 0) + (pos_breaks[1] || 0) + (pos_breaks[0] || 0) + new_s);
+    }
         function switchColor()
         {   pixelArt.drawColor = document.getElementById("colorSelector").value;
         }
@@ -115,8 +130,17 @@
                 delete resposta.finalX;
                 delete resposta.finalY;
             }
+            else
+            {   resposta.art = compress_sprite(resposta.art);
+
+                delete resposta.posX;
+                delete resposta.posY;
+                delete resposta.finalX;
+                delete resposta.finalY;
+                delete resposta.usedColors;
+            }   
             navigator.clipboard.writeText(JSON.stringify(resposta));
-            alert("Exportando "+ (tipoResposta == 0 ? "para interface" : "para código"))
+            alert("Exportando para "+ (tipoResposta == 0 ? "js13k" : (tipoResposta == 1 ? "interface" : "código")))
         }
         function Import()
         {   let codigo = prompt("Qual o código de importação?");
